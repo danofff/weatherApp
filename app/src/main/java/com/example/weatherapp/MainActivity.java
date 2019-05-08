@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements Callback<WeatherR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getCurrentWeather = findViewById(R.id.buttonGetWeather);
         implemetLocationService();
 
     }
@@ -60,6 +59,13 @@ public class MainActivity extends AppCompatActivity implements Callback<WeatherR
     }
 
     public void implemetLocationService() {
+        getCurrentWeather = findViewById(R.id.buttonGetWeather);
+        getCurrentWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLocation();
+            }
+        });
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -111,13 +117,8 @@ public class MainActivity extends AppCompatActivity implements Callback<WeatherR
     }
 
     private void getLocation(){
-        getCurrentWeather.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                locationManager.requestLocationUpdates("gps", 500, 0, locationListener);
-                sendRequest();
-            }
-        });
+        locationManager.requestLocationUpdates("gps", 500, 0, locationListener);
+        sendRequest();
     }
 
     private void sendRequest(){
