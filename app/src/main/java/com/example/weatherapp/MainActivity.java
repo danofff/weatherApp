@@ -15,7 +15,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,10 +50,13 @@ public class MainActivity extends AppCompatActivity implements Callback<WeatherR
     }
 
     @Override
-    public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+    public void  onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
         WeatherResponse obj = response.body();
         ((TextView) findViewById(R.id.temperature)).setText("temperature " + obj.main.temp);
         ((TextView) findViewById(R.id.cityName)).setText(obj.name);
+        ImageView iconImageView = findViewById(R.id.weatherIcon);
+        Picasso.get().load("http://openweathermap.org/img/w/"+obj.weather.get(0).icon+".png").into(iconImageView);
+
     }
 
     @Override
@@ -133,5 +139,11 @@ public class MainActivity extends AppCompatActivity implements Callback<WeatherR
         options.put("units", units);
 
         api.getData(options).enqueue(this);
+    }
+
+
+    public void goToCityservoce(View view) {
+        Intent intent = new Intent(this, WeatherByCityName.class);
+        startActivity(intent);
     }
 }
