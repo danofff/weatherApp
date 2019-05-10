@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -52,11 +53,19 @@ public class MainActivity extends AppCompatActivity implements Callback<WeatherR
     @Override
     public void  onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
         WeatherResponse obj = response.body();
-        ((TextView) findViewById(R.id.temperature)).setText("temperature " + obj.main.temp);
-        ((TextView) findViewById(R.id.cityName)).setText(obj.name);
-        ImageView iconImageView = findViewById(R.id.weatherIcon);
-        Picasso.get().load("http://openweathermap.org/img/w/"+obj.weather.get(0).icon+".png").into(iconImageView);
+        if(obj.cod==200){
 
+            StringBuilder info = new StringBuilder();
+            info.append((int)obj.main.temp).append("\u00B0"+"C ").append(obj.weather.get(0).description).append(" humidity ").append(obj.main.humidity);
+            ((TextView) findViewById(R.id.temperature)).setText(info);
+            ((TextView) findViewById(R.id.cityName)).setText(obj.name);
+            ImageView iconImageView = findViewById(R.id.weatherIcon);
+            Picasso.get().load("http://openweathermap.org/img/w/"+obj.weather.get(0).icon+".png").into(iconImageView);
+        }
+        else{
+            Toast toast = Toast.makeText(this, "Something went wrong!!!",Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     @Override
@@ -142,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements Callback<WeatherR
     }
 
 
-    public void goToCityservoce(View view) {
+    public void goToCityService(View view) {
         Intent intent = new Intent(this, WeatherByCityName.class);
         startActivity(intent);
     }

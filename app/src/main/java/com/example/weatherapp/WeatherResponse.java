@@ -44,7 +44,7 @@ public class WeatherResponse {
 
         @SerializedName("cod")
         @Expose
-        float cod;
+        int cod;
 
         @SerializedName("visibility")
         @Expose
@@ -53,4 +53,8 @@ public class WeatherResponse {
         @SerializedName("main")
         @Expose
         Main main;
+
+        @SerializedName("message")
+        @Expose
+        String message;
 }

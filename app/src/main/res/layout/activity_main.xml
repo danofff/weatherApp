@@ -61,5 +61,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         android:text="WEATHER IN CITY"
-        android:onClick="goToCityservoce"/>
+        android:onClick="goToCityService"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
